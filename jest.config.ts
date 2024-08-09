@@ -17,6 +17,9 @@ const config: Config = {
   testPathIgnorePatterns: ["./.next/", "./node_modules/"],
   setupFilesAfterEnv: ["./jest.setup.ts"],
   moduleFileExtensions: ["ts", "tsx", "js"],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
   },
