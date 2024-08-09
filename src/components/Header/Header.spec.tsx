@@ -18,7 +18,7 @@ describe("<Header/>", () => {
     expect(text).toBeInTheDocument();
   });
 
-  it("should render ChangeHeaderPage", () => {
+  it("should render ActiveLink", () => {
     render(<Header />);
 
     const searchIcon = screen.getByTestId("search-icon");

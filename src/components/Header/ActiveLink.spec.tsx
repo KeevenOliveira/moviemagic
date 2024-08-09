@@ -6,27 +6,37 @@ const renderChangeHeaderPage = (isSearch?: boolean) => {
   return render(<ChangeHeaderPage isSearch={isSearch} />);
 };
 
-describe("<ChangeHeaderPage/>", () => {
-  it("should render ChangeHeaderPage", () => {
-    renderChangeHeaderPage();
+describe("<ActiveLink/>", () => {
+  it("renders the home icon when isSearch is true", () => {
+    renderChangeHeaderPage(true);
+    const homeLink = screen.getByTestId("to-home");
+    const homeIcon = screen.getByTestId("home-icon");
 
-    const searchIcon = screen.getByTestId("search-icon");
-    const linkToSearch = screen.getByTestId("to-search");
-
-    expect(searchIcon).toBeVisible();
-    expect(linkToSearch).toBeVisible();
+    expect(homeLink).toBeInTheDocument();
+    expect(homeLink).toHaveAttribute("href", "/");
+    expect(homeIcon).toBeInTheDocument();
+    expect(homeIcon).toHaveClass("text-3xl text-white-500");
   });
 
-  it("should be able render home icon", () => {
-    renderChangeHeaderPage(true);
+  it("renders the search icon when isSearch is false", () => {
+    renderChangeHeaderPage(false);
+    const searchLink = screen.getByTestId("to-search");
+    const searchIcon = screen.getByTestId("search-icon");
 
-    const homeIcon = screen.getByTestId("home-icon");
-    const linkToHome = screen.getByTestId("to-home");
+    expect(searchLink).toBeInTheDocument();
+    expect(searchLink).toHaveAttribute("href", "/search");
+    expect(searchIcon).toBeInTheDocument();
+    expect(searchIcon).toHaveClass("text-3xl text-white-500");
+  });
 
-    expect(homeIcon).toHaveProperty("tagName", "svg");
-    expect(homeIcon).toHaveClass("text-3xl text-white-500");
+  it("renders the search icon when isSearch is undefined", () => {
+    renderChangeHeaderPage();
+    const searchLink = screen.getByTestId("to-search");
+    const searchIcon = screen.getByTestId("search-icon");
 
-    expect(homeIcon).toBeInTheDocument();
-    expect(linkToHome).toBeVisible();
+    expect(searchLink).toBeInTheDocument();
+    expect(searchLink).toHaveAttribute("href", "/search");
+    expect(searchIcon).toBeInTheDocument();
+    expect(searchIcon).toHaveClass("text-3xl text-white-500");
   });
 });

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { MdMovieFilter } from "react-icons/md";
 
-import ChangeHeaderPage from "./ActiveLink";
+import ActiveLink from "./ActiveLink";
 
 const Header = () => {
   const pathName = usePathname();
@@ -21,7 +21,7 @@ const Header = () => {
         <h4>Movie Magic</h4>
       </Link>
 
-      <ChangeHeaderPage isSearch={isSearch} />
+      <ActiveLink isSearch={isSearch} />
     </header>
   );
 };

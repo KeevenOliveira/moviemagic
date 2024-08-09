@@ -7,7 +7,6 @@ interface ChangeHeaderIconProps {
 }
 
 const ChangeHeaderIcon = ({ isSearch }: ChangeHeaderIconProps) => {
-  console.log(isSearch);
   if (isSearch) {
     return (
       <Link href="/" data-testid="to-home">
