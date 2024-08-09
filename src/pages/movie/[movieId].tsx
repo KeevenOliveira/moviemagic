@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps<MoviePageProps> = async ({
 
 const Movie = ({ movie, similarMovies }: MoviePageProps) => {
   const [image, setImage] = useState(
-    "https://media.themoviedb.org/t/p/w220_and_h330_face" + movie?.poster_path
+    process.env.NEXT_PUBLIC_THE_MOVIE_URL_IMAGES + movie?.poster_path
   );
 
   const onErrorImage = () => {

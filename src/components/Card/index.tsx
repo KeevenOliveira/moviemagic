@@ -13,7 +13,7 @@ export interface CardProps {
 
 const Card = ({ poster_path, release_date, title, id }: CardProps) => {
   const [image, setImage] = useState(
-    "https://media.themoviedb.org/t/p/w220_and_h330_face" + poster_path
+    process.env.NEXT_PUBLIC_THE_MOVIE_URL_IMAGES + poster_path
   );
 
   const url = useMemo(() => {
