@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "id": "3",
+      "title": "Popular Movie 1",
+      "poster_path": "/path3.jpg",
+      "release_date": "2023-03-01"
+    },
+    {
+      "id": "4",
+      "title": "Popular Movie 2",
+      "poster_path": "/path4.jpg",
+      "release_date": "2023-04-01"
+    }
+  ]
+}

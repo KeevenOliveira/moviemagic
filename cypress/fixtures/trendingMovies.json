@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "id": "1",
+      "title": "Trending Movie 1",
+      "poster_path": "/path1.jpg",
+      "release_date": "2023-01-01"
+    },
+    {
+      "id": "2",
+      "title": "Trending Movie 2",
+      "poster_path": "/path2.jpg",
+      "release_date": "2023-02-01"
+    }
+  ]
+}
