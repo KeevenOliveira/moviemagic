@@ -2,6 +2,10 @@
 
 # Movie Magic
 
+![image](https://github.com/user-attachments/assets/1eea1d90-0123-4b3e-a652-75905473b03f)
+
+Link to visit on Vercel: https://moviemagic-eta.vercel.app/
+
 ## Table of Contents
 
 - [Introduction](#introduction)
