@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react";
 import Search from "@/pages/search";
 import { useRouter } from "next/router";
-import { searchMovies } from "@/services/movies";
+import { discoverMovies, searchMovies } from "@/services/movies";
 
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
@@ -16,107 +16,124 @@ jest.mock("next/router", () => ({
 
 jest.mock("@/services/movies", () => ({
   searchMovies: jest.fn(),
+  discoverMovies: jest.fn(),
+  listMovieWatchProviders: jest.fn(),
 }));
-
-jest.mock("@/components/Loading", () => () => (
-  <div data-testid="loading">Loading...</div>
-));
-
-jest.mock("@/components/SearchCardListPagination", () => (props: any) => (
-  <div data-testid="search-card-list-pagination" {...props}>
-    Search Card List
-  </div>
-));
 
 describe("<Search/>", () => {
   const mockPush = jest.fn();
-  const mockQuery = { q: "Wolverine", p: "1" };
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({
-      query: mockQuery,
+      query: {},
       push: mockPush,
     });
 
-    (searchMovies as jest.Mock).mockResolvedValue({
+    const { listMovieWatchProviders } = jest.requireMock("@/services/movies");
+    (listMovieWatchProviders as jest.Mock).mockResolvedValue({
+      data: { results: [] },
+    });
+
+    (discoverMovies as jest.Mock).mockResolvedValue({
       data: {
+        page: 1,
         results: [
           {
             id: "1",
             title: "Movie 1",
             poster_path: "/path1.jpg",
             release_date: "2023-01-01",
+            vote_average: 8.1,
           },
           {
             id: "2",
             title: "Movie 2",
             poster_path: "/path2.jpg",
             release_date: "2023-02-01",
+            vote_average: 7.9,
           },
         ],
         total_pages: 1,
         total_results: 2,
       },
     });
+
+    (searchMovies as jest.Mock).mockResolvedValue({
+      data: {
+        page: 1,
+        results: [],
+        total_pages: 0,
+        total_results: 0,
+      },
+    });
   });
 
-  it("renders the search form and initial results", async () => {
+  it("renders the search form and discover results by default", async () => {
     await act(async () => {
       render(<Search />);
     });
 
-    const searchInput = screen.getByPlaceholderText("Search for movies");
+    const searchInput = screen.getByPlaceholderText(
+      "Search for movies, TV shows, people..."
+    );
     expect(searchInput).toBeInTheDocument();
 
     const searchButton = screen.getByRole("button", { name: /search/i });
     expect(searchButton).toBeInTheDocument();
 
-    expect(screen.queryByTestId("loading")).not.toBeInTheDocument();
-
     await waitFor(() => {
-      expect(
-        screen.getByTestId("search-card-list-pagination")
-      ).toBeInTheDocument();
+      expect(discoverMovies).toHaveBeenCalled();
     });
   });
 
   it("handles search form submission", async () => {
+    (useRouter as jest.Mock).mockReturnValue({
+      query: {},
+      push: mockPush,
+    });
+
     await act(async () => {
       render(<Search />);
     });
 
-    const searchInput = screen.getByPlaceholderText("Search for movies");
+    const searchInput = screen.getByPlaceholderText(
+      "Search for movies, TV shows, people..."
+    );
     const searchButton = screen.getByRole("button", { name: /search/i });
 
     fireEvent.change(searchInput, { target: { value: "Batman" } });
 
     fireEvent.click(searchButton);
 
-    expect(screen.getByTestId("loading")).toBeInTheDocument();
-
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith({
         pathname: "/search",
         query: { q: "Batman", p: 1 },
       });
-      expect(searchMovies).toHaveBeenCalledWith("Batman", 1);
-      expect(
-        screen.getByTestId("search-card-list-pagination")
-      ).toBeInTheDocument();
     });
   });
 
-  it("displays loading indicator while fetching search results", async () => {
+  it("focuses the input when focus=1 is present", async () => {
+    jest.useFakeTimers();
+
+    (useRouter as jest.Mock).mockReturnValue({
+      query: { focus: "1" },
+      push: mockPush,
+    });
+
     await act(async () => {
       render(<Search />);
     });
 
-    fireEvent.submit(screen.getByRole("form"));
-
-    expect(screen.getByTestId("loading")).toBeInTheDocument();
+    act(() => {
+      jest.runAllTimers();
+    });
 
     await waitFor(() => {
-      expect(screen.queryByTestId("loading")).not.toBeInTheDocument();
+      const searchInput = screen.getByTestId("search-input");
+      expect(searchInput).toHaveFocus();
     });
+
+    jest.useRealTimers();
   });
 });

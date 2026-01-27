@@ -9,25 +9,23 @@ jest.mock("@/services/movies", () => ({
   listPopularMovies: jest.fn(),
 }));
 
-jest.mock("@/components/CardList", () => (props: any) => (
-  <div data-testid="card-list" {...props}>
-    {props.title}
-  </div>
-));
-
 describe("<Home/>", () => {
   const trendingMovies = [
     {
       id: "1",
       title: "Trending Movie 1",
       poster_path: "/path1.jpg",
+      backdrop_path: "/backdrop1.jpg",
       release_date: "2023-01-01",
+      vote_average: 8.1,
     },
     {
       id: "2",
       title: "Trending Movie 2",
       poster_path: "/path2.jpg",
+      backdrop_path: "/backdrop2.jpg",
       release_date: "2023-02-01",
+      vote_average: 7.9,
     },
   ];
 
@@ -36,13 +34,17 @@ describe("<Home/>", () => {
       id: "3",
       title: "Popular Movie 1",
       poster_path: "/path3.jpg",
+      backdrop_path: "/backdrop3.jpg",
       release_date: "2023-03-01",
+      vote_average: 8.8,
     },
     {
       id: "4",
       title: "Popular Movie 2",
       poster_path: "/path4.jpg",
+      backdrop_path: "/backdrop4.jpg",
       release_date: "2023-04-01",
+      vote_average: 8.3,
     },
   ];
   beforeEach(() => {
@@ -55,18 +57,20 @@ describe("<Home/>", () => {
     });
   });
 
-  it("renders the Home component with trending and popular movies", async () => {
+  it("renders the Home component sections", async () => {
     const context: GetStaticPropsContext = {};
     const result = await getStaticProps(context);
     const props = (result as GetStaticPropsResult<HomeProps>)?.props;
 
     render(<Home {...props} />);
 
-    const trendingList = screen.getByText("Trending");
-    expect(trendingList).toBeInTheDocument();
+    expect(screen.getByText("Most Popular")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /^Trending( in .+)?$/ })
+    ).toBeInTheDocument();
 
-    const popularList = screen.getByText("Popular");
-    expect(popularList).toBeInTheDocument();
+    expect(screen.getAllByText("Trending Movie 1").length).toBeGreaterThan(0);
+    expect(screen.getByText("Popular Movie 1")).toBeInTheDocument();
   });
 
   it("fetches trending and popular movies in getStaticProps", async () => {

@@ -10,14 +10,21 @@ const ChangeHeaderIcon = ({ isSearch }: ChangeHeaderIconProps) => {
   if (isSearch) {
     return (
       <Link href="/" data-testid="to-home">
-        <HiHome data-testid="home-icon" className="text-3xl text-white-500" />
+        <span className="mm-iconButton">
+          <HiHome data-testid="home-icon" className="text-xl text-slate-100" />
+        </span>
       </Link>
     );
   }
 
   return (
-    <Link href="/search" data-testid="to-search">
-      <IoSearch data-testid="search-icon" className="text-3xl text-white-500" />
+    <Link href="/search?focus=1" data-testid="to-search">
+      <span className="mm-iconButton">
+        <IoSearch
+          data-testid="search-icon"
+          className="text-xl text-slate-100"
+        />
+      </span>
     </Link>
   );
 };

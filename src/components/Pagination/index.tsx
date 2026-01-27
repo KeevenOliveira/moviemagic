@@ -41,22 +41,24 @@ const Pagination = ({
 
       return `/search?p=${pageNumber}`;
     },
-    [query]
+    [query],
   );
 
   return (
-    <div data-testid="pagination">
-      <p className="text-center mt-3">Total results: {total_results}</p>
+    <div data-testid="pagination" className="mt-6">
+      <p className="text-center text-sm text-slate-200/70">
+        Total results: {total_results}
+      </p>
       <nav
-        className="flex justify-center mt-3 mb-3"
+        className="flex justify-center mt-4 mb-3"
         aria-label="Page navigation example"
       >
-        <ul className="flex items-center -space-x-px h-8 text-sm">
+        <ul className="mm-glass rounded-xl flex items-center h-10 text-sm overflow-hidden">
           <li>
             <Link
               href={onPageChange(page - 1)}
               scroll
-              className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+              className="flex items-center justify-center px-4 h-10 leading-tight text-slate-100/80 hover:text-slate-100 hover:bg-white/10 transition"
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -87,9 +89,7 @@ const Pagination = ({
           <li>
             <Link
               href={onPageChange(page + 1)}
-              className={
-                "flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              }
+              className="flex items-center justify-center px-4 h-10 leading-tight text-slate-100/80 hover:text-slate-100 hover:bg-white/10 transition"
             >
               <span className="sr-only">Next</span>
               <svg

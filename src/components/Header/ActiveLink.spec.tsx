@@ -15,7 +15,7 @@ describe("<ActiveLink/>", () => {
     expect(homeLink).toBeInTheDocument();
     expect(homeLink).toHaveAttribute("href", "/");
     expect(homeIcon).toBeInTheDocument();
-    expect(homeIcon).toHaveClass("text-3xl text-white-500");
+    expect(homeIcon).toHaveClass("text-xl");
   });
 
   it("renders the search icon when isSearch is false", () => {
@@ -24,9 +24,9 @@ describe("<ActiveLink/>", () => {
     const searchIcon = screen.getByTestId("search-icon");
 
     expect(searchLink).toBeInTheDocument();
-    expect(searchLink).toHaveAttribute("href", "/search");
+    expect(searchLink).toHaveAttribute("href", "/search?focus=1");
     expect(searchIcon).toBeInTheDocument();
-    expect(searchIcon).toHaveClass("text-3xl text-white-500");
+    expect(searchIcon).toHaveClass("text-xl");
   });
 
   it("renders the search icon when isSearch is undefined", () => {
@@ -35,8 +35,8 @@ describe("<ActiveLink/>", () => {
     const searchIcon = screen.getByTestId("search-icon");
 
     expect(searchLink).toBeInTheDocument();
-    expect(searchLink).toHaveAttribute("href", "/search");
+    expect(searchLink).toHaveAttribute("href", "/search?focus=1");
     expect(searchIcon).toBeInTheDocument();
-    expect(searchIcon).toHaveClass("text-3xl text-white-500");
+    expect(searchIcon).toHaveClass("text-xl");
   });
 });

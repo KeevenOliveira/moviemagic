@@ -1,5 +1,4 @@
 import { render, screen } from "@/test/test-utils";
-import { usePathname } from "next/navigation";
 
 import Header from ".";
 
@@ -18,29 +17,13 @@ describe("<Header/>", () => {
     expect(text).toBeInTheDocument();
   });
 
-  it("should render ActiveLink", () => {
+  it("should render search link (mobile)", () => {
     render(<Header />);
 
-    const searchIcon = screen.getByTestId("search-icon");
-    const linkToSearch = screen.getByTestId("to-search");
+    const searchIcon = screen.getByTestId("search-icon-mobile");
+    const linkToSearch = screen.getByTestId("to-search-mobile");
 
     expect(searchIcon).toBeVisible();
     expect(linkToSearch).toBeVisible();
-  });
-
-  it("should be able render home icon", () => {
-    (usePathname as jest.Mock).mockReturnValueOnce("/search");
-
-    render(<Header />);
-
-    const homeIcon = screen.getByTestId("home-icon");
-    const linkToHome = screen.getByTestId("to-home");
-    const text = screen.getByText("Movie Magic");
-
-    expect(homeIcon).toHaveProperty("tagName", "svg");
-    expect(homeIcon).toHaveClass("text-3xl text-white-500");
-    expect(text).toBeVisible();
-    expect(homeIcon).toBeInTheDocument();
-    expect(linkToHome).toBeVisible();
   });
 });

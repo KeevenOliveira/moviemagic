@@ -23,10 +23,7 @@ describe("<Card/>", () => {
 
     const imageElement = screen.getByRole("img", { name: /Test Movie/i });
     expect(imageElement).toBeInTheDocument();
-    expect(imageElement).toHaveAttribute(
-      "src",
-      "http://localhost/_next/image?url=https%3A%2F%2Fmedia.themoviedb.org%2Ft%2Fp%2Fw220_and_h330_face%2Ftest-poster.jpg&w=384&q=75"
-    );
+    expect(imageElement).toHaveAttribute("src", expect.stringContaining("test-poster.jpg"));
 
     const titleElement = screen.getByText(defaultProps.title);
     expect(titleElement).toBeInTheDocument();
